@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<button class="btn1">generateToken</button>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+    // http://localhost:9050/files/apiLogin.htm
+ document.querySelector(".btn1").addEventListener("click",() => {
+     const data = {mid:"apiuser10", mpw:"1111"};
+
+     axios.post("http://localhost:9060/generateToken", data)
+     .then(
+            res =>
+            {
+                const accessToken = res.data.accessToken;
+                const refreshToken = res.data.refreshToken;
+                localStorage.setItem("accessToken",accessToken);
+                localStorage.setItem("refreshToken",refreshToken);
+            })
+     .catch(err => console.error(err));
+ }, false);
+</script>
+
+</body>
+</html>
