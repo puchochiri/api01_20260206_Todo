@@ -3,10 +3,10 @@ package org.zerock.api01.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.zerock.api01.domain.Todo;
+import org.zerock.api01.dto.PageRequestDTO;
+import org.zerock.api01.dto.PageResponseDTO;
 import org.zerock.api01.dto.TodoDTO;
 import org.zerock.api01.service.TodoService;
 
@@ -25,6 +25,11 @@ public class TodoController {
     log.info(todoDTO);
     Long tno = todoService.register(todoDTO);
     return Map.of("tno", tno);
+  }
+
+  @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+  public PageResponseDTO<TodoDTO> list(PageRequestDTO pageRequestDTO){
+    return todoService.list(pageRequestDTO);
   }
 
 }
