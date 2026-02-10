@@ -32,4 +32,22 @@ public class TodoController {
     return todoService.list(pageRequestDTO);
   }
 
+  @DeleteMapping(value="/{tno}")
+  public Map<String,String> delete(@PathVariable Long tno){
+    todoService.remove(tno);
+    return Map.of("result","success");
+  }
+
+  @PutMapping(value="/{tno}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public Map<String, String> modify(@PathVariable("tno") Long tno, @RequestBody TodoDTO todoDTO) {
+    // 잘못된 tno가 발생하지 못하도록
+    todoDTO.setTno(tno);
+    todoService.modify(todoDTO);
+    return Map.of("result","success");
+
+  }
+
+
+
+
 }

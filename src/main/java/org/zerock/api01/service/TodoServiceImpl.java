@@ -11,6 +11,8 @@ import org.zerock.api01.dto.PageResponseDTO;
 import org.zerock.api01.dto.TodoDTO;
 import org.zerock.api01.repository.TodoRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -42,6 +44,25 @@ public class TodoServiceImpl implements TodoService {
             .total((int)result.getTotalElements())
             .build();
 
+
+  }
+
+  @Override
+  public void remove(Long tno) {
+    todoRepository.deleteById(tno);
+  }
+
+  @Override
+  public void modify(TodoDTO todoDTO) {
+    Optional<Todo> result = todoRepository.findById(todoDTO.getTno());
+
+    Todo todo = result.orElseThrow();
+
+    todo.changeTitle(todoDTO.getTitle());
+    todo.changeDueDate(todoDTO.getDueDate());
+    todo.changeComplte(todoDTO.isComplete());
+
+    todoRepository.save(todo);
 
   }
 

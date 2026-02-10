@@ -86,7 +86,7 @@ public class CustomSecurityConfig {
     // APILoginFilter의 위치조정
     // api로 시작하는 모든 경로는 TokenCheckFilter 동작
     http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
-    http.addFilterBefore(tokenCheckFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(tokenCheckFilter(jwtUtil, apiUserDetailsService), UsernamePasswordAuthenticationFilter.class);
 
     // refreshToken 호출처리 localhost:9050/refreshToken
     http.addFilterBefore(new RefreshTokenFilter("/refreshToken",jwtUtil),TokenCheckFilter.class);
@@ -103,8 +103,9 @@ public class CustomSecurityConfig {
     return http.build();
   }
   //localhost:9050/api/sample/doA
-  private Filter tokenCheckFilter(JWTUtil jwtUtil) {
-    return new TokenCheckFilter(jwtUtil);
+  private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil,APIUserDetailsService apiUserDetailsService) {
+    return new TokenCheckFilter(apiUserDetailsService,jwtUtil);
+    //return new TokenCheckFilter(jwtUtil);
   }
 
   @Bean

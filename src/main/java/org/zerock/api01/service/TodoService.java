@@ -13,5 +13,9 @@ public interface TodoService {
 
   PageResponseDTO<TodoDTO> list(PageRequestDTO pageRequestDTO);
 
+  void remove(Long tno);
+
+  void modify(TodoDTO todoDTO);
+
 
 }
